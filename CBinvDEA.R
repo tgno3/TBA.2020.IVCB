@@ -20,8 +20,7 @@ load("CBinvDEA.RData")
 #########################################################################################################################
 
 # Table 1. Experimental data
-table.1 <- cbind(df.JSG$Z0, df.JSG$io[,,1], 
-                 Z1 = c(df.JSG$io[,2,2] + df.JSG$ZT), df.JSG$io[,,2], df.JSG$ZT)
+table.1 <- cbind(df.JSG$Z0, df.JSG$io[,,1], Z1 = c(df.JSG$io[,2,2] + df.JSG$ZT), df.JSG$io[,,2], df.JSG$ZT)
 print(table.1[, c(2:4, 6:8, 1, 9)])
 
 # Run JSG model
@@ -29,6 +28,12 @@ dm.dynamic.et(df.JSG$io[,1,], df.JSG$io[,3,], df.JSG$io[,2,], df.JSG$ZT)
 
 # Run DJL model
 dm.dynamic.bc(df.JSG$io[,1,], df.JSG$io[,3,], df.JSG$io[,2,], df.JSG$Z0)
+
+# Verify the perturbed scenario
+df.JSG.p         <- df.JSG
+df.JSG.p$io[1,,] <- array(c(25.95, 18.75, 5, 22.50, 25.00, 7), c(1, 3, 2))
+df.JSG.p$Z0[1, ] <- 98.75
+dm.dynamic.et(df.JSG.p$io[,1,], df.JSG.p$io[,3,], df.JSG.p$io[,2,], df.JSG.p$ZT)
 
 
 #########################################################################################################################
